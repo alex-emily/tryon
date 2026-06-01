@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+
+deploy/
+uploads/
+node_modules/
+*.log
+.codex-server.*.log
+
+test-aliyun.js
+test-e2e.js
+test-result.jpg
+*.md
+start.bat

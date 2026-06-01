@@ -1,0 +1,13 @@
+.env
+.env.*
+!.env.example
+
+uploads/
+*.log
+.codex-server.*.log
+
+node_modules/
+npm-debug.log*
+
+deploy/
+*.zip
