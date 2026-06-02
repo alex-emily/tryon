@@ -25,6 +25,38 @@
     });
   }
 
+  function resizeImage(image, maxW, maxH) {
+    var w = image.naturalWidth || image.width;
+    var h = image.naturalHeight || image.height;
+    var scale = Math.min(maxW / w, maxH / h, 1);
+    if (scale >= 1) {
+      return { dataUrl: null, width: w, height: h };
+    }
+
+    var canvas = document.createElement("canvas");
+    canvas.width = Math.round(w * scale);
+    canvas.height = Math.round(h * scale);
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+    return {
+      dataUrl: canvas.toDataURL("image/jpeg", 0.85),
+      width: canvas.width,
+      height: canvas.height,
+    };
+  }
+
+  function loadAndResize(file) {
+    return loadImage(file).then(function (image) {
+      var result = resizeImage(image, 800, 1200);
+      if (result.dataUrl) {
+        return { image: image, dataUrl: result.dataUrl };
+      }
+      return readDataUrl(file).then(function (dataUrl) {
+        return { image: image, dataUrl: dataUrl };
+      });
+    });
+  }
+
   function createUploadModule(options) {
     const state = {
       person: null,
@@ -60,24 +92,24 @@
       const file = event.target.files?.[0];
       if (!file) return;
 
-      options.onStatus?.("正在读取照片...");
-      const [image, dataUrl] = await Promise.all([loadImage(file), readDataUrl(file)]);
+      options.onStatus?.("正在处理照片...");
+      const result = await loadAndResize(file);
 
       if (kind === "person") {
-        state.person = image;
-        state.personDataUrl = dataUrl;
+        state.person = result.image;
+        state.personDataUrl = result.dataUrl;
         state.personFileName = file.name;
         options.personStatus.textContent = "已上传";
         options.onStatus?.("人物照片已上传，请继续上传衣服照片");
       } else {
-        state.cloth = image;
-        state.clothDataUrl = dataUrl;
+        state.cloth = result.image;
+        state.clothDataUrl = result.dataUrl;
         state.clothFileName = file.name;
         options.clothStatus.textContent = "已上传";
         options.onStatus?.("衣服照片已上传");
       }
 
-      updateThumb(kind, dataUrl);
+      updateThumb(kind, result.dataUrl);
 
       if (isReady()) {
         options.onStatus?.("照片已就绪，点击生成区开始试衣");
