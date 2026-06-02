@@ -71,13 +71,21 @@ const TRYON_RATE_WINDOW_MS = Number(process.env.TRYON_RATE_WINDOW_MS || 60 * 60 
 const MAX_ACTIVE_GENERATIONS = Number(process.env.MAX_ACTIVE_GENERATIONS || 2);
 const ALIYUN_ENDPOINT = "dashscope.aliyuncs.com";
 
+function firstEnv(...keys) {
+  for (const key of keys) {
+    const value = process.env[key];
+    if (value) return value;
+  }
+  return "";
+}
+
 function getConfig() {
   const config = {
-    aliyunApiKey: process.env.ALIYUN_API_KEY,
-    ossBucket: process.env.ALIYUN_OSS_BUCKET,
-    ossEndpoint: process.env.ALIYUN_OSS_ENDPOINT,
-    ossAccessKeyId: process.env.ALIYUN_ACCESS_KEY_ID,
-    ossAccessKeySecret: process.env.ALIYUN_ACCESS_KEY_SECRET,
+    aliyunApiKey: firstEnv("ALIYUN_API_KEY", "DASHSCOPE_API_KEY"),
+    ossBucket: firstEnv("ALIYUN_OSS_BUCKET", "OSS_BUCKET"),
+    ossEndpoint: firstEnv("ALIYUN_OSS_ENDPOINT", "OSS_ENDPOINT"),
+    ossAccessKeyId: firstEnv("ALIYUN_ACCESS_KEY_ID", "ALIYUN_ACCESS_KEYID", "OSS_ACCESS_KEY_ID", "ossAccessKeyID"),
+    ossAccessKeySecret: firstEnv("ALIYUN_ACCESS_KEY_SECRET", "ALIYUN_ACCESS_KEYSECRET", "OSS_ACCESS_KEY_SECRET", "ossAccessKeySecret"),
   };
 
   const missing = Object.entries(config)
