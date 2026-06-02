@@ -354,14 +354,56 @@ async function cleanupOSSInputs(config, fileNames) {
   await Promise.allSettled(fileNames.map((fileName) => deleteFromOSS(config, fileName)));
 }
 
-async function fetchImageAsDataUrl(url) {
+async function fetchResultImage(url) {
   const imageResponse = await fetch(url);
   if (!imageResponse.ok) {
     throw new Error(`Result image fetch failed: ${imageResponse.status}`);
   }
   const imageBuffer = await imageResponse.arrayBuffer();
-  const imageBase64 = Buffer.from(imageBuffer).toString("base64");
-  return `data:image/jpeg;base64,${imageBase64}`;
+  const base64 = Buffer.from(imageBuffer).toString("base64");
+  return {
+    buffer: Buffer.from(imageBuffer),
+    dataUrl: `data:image/jpeg;base64,${base64}`,
+  };
+}
+
+async function deletePreviousResult(config) {
+  const resultFileName = "tryon/result.jpg";
+  try {
+    await deleteFromOSS(config, resultFileName);
+    console.log("[tryon] deleted previous result from OSS");
+  } catch (_) {
+    // 404 or network error — safe to ignore
+  }
+}
+
+async function uploadResultToOSS(config, imageBuffer) {
+  const resultFileName = "tryon/result.jpg";
+  try {
+    const timestamp = new Date().toUTCString();
+    const resource = `/${config.ossBucket}/${resultFileName}`;
+    const signature = signOSSRequest(config, "PUT", "image/jpeg", timestamp, resource);
+    const url = `https://${config.ossBucket}.${config.ossEndpoint}/${resultFileName}`;
+
+    const uploadResponse = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "image/jpeg",
+        "Date": timestamp,
+        "Authorization": `OSS ${config.ossAccessKeyId}:${signature}`,
+      },
+      body: imageBuffer,
+    });
+
+    if (!uploadResponse.ok) {
+      const errorText = await uploadResponse.text();
+      console.warn("[tryon] OSS result upload failed:", uploadResponse.status, errorText.slice(0, 200));
+    } else {
+      console.log("[tryon] result uploaded to OSS");
+    }
+  } catch (error) {
+    console.warn("[tryon] OSS result upload error:", error.message);
+  }
 }
 
 async function createTryOnImage(personImageData, clothImageData) {
@@ -375,6 +417,9 @@ async function createTryOnImage(personImageData, clothImageData) {
     const personFileName = `tryon/${requestId}/person.${personImage.extension}`;
     const clothFileName = `tryon/${requestId}/cloth.${clothImage.extension}`;
     uploadedFileNames.push(personFileName, clothFileName);
+
+    // 先删除上次的生成结果
+    await deletePreviousResult(config);
 
     const personImageUrl = await uploadToOSS(config, personImage, personFileName);
     const clothImageUrl = await uploadToOSS(config, clothImage, clothFileName);
@@ -447,7 +492,10 @@ async function createTryOnImage(personImageData, clothImageData) {
         if (!resultUrl) {
           throw new Error("DashScope task succeeded without image URL");
         }
-        return fetchImageAsDataUrl(resultUrl);
+        const result = await fetchResultImage(resultUrl);
+        // 把结果图上传到 OSS，方便下次覆盖
+        await uploadResultToOSS(config, result.buffer);
+        return result.dataUrl;
       }
 
       if (taskStatus === "FAILED") {

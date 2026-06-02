@@ -7,7 +7,6 @@ package.json
 .dockerignore
 Dockerfile
 DEPLOY.md
-render.yaml
 start.bat
 open-web.bat
 test-aliyun.js
