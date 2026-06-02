@@ -59,7 +59,6 @@ button {
   z-index: 20;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 22px;
   max-width: 1360px;
   margin: 0 auto;
@@ -158,19 +157,12 @@ main {
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: minmax(260px, 0.44fr) minmax(620px, 1.56fr);
-  align-items: start;
-  gap: 28px;
+  display: flex;
+  justify-content: center;
   max-width: 1360px;
-  min-height: 690px;
+  min-height: auto;
   margin: 0 auto;
   padding: 14px 0 30px;
-}
-
-.hero-copy {
-  align-self: start;
-  padding-top: 24px;
 }
 
 .eyebrow {
@@ -259,8 +251,10 @@ h2 {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  grid-template-rows: minmax(430px, 500px) auto;
+  grid-template-rows: minmax(280px, auto) auto auto;
   gap: 12px;
+  width: 100%;
+  max-width: 900px;
   padding: 50px 14px 14px;
   background:
     linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(255, 252, 246, 0.58)),
@@ -664,9 +658,10 @@ h2 {
 }
 
 .status-line {
-  margin: 0;
+  grid-column: 1 / -1;
+  margin: 4px 8px;
   color: var(--muted);
-  text-align: right;
+  text-align: center;
   font-size: 14px;
   font-weight: 800;
 }
@@ -755,25 +750,13 @@ h2 {
     padding: 16px 18px 10px;
   }
 
-  .nav-links {
-    order: 3;
-    width: 100%;
-    justify-content: space-between;
-    overflow-x: auto;
-  }
-
-  .hero,
-  .how {
-    grid-template-columns: 1fr;
-  }
-
   .hero {
     min-height: auto;
-    padding: 26px 0 36px;
+    padding: 16px 0 24px;
   }
 
   .preview-mosaic {
-    grid-template-rows: minmax(380px, 460px) auto;
+    grid-template-rows: minmax(260px, auto) auto auto;
   }
 }
 
@@ -786,37 +769,17 @@ h2 {
     font-size: 20px;
   }
 
-  .signin {
-    min-height: 38px;
-    padding: 0 16px;
-  }
-
-  .upload-pair,
-  .preview-actions,
-  .feature-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .panel-head {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
   .status-line {
-    text-align: left;
+    text-align: center;
   }
 
   .preview-mosaic {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(3, 180px) auto;
+    grid-template-rows: repeat(3, 180px) auto auto;
     border-radius: 22px;
   }
 
   .download-btn {
     width: 100%;
-  }
-
-  h1 {
-    font-size: 56px;
   }
 }

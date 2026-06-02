@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>&#20113;&#35797;&#34915;&#38388;</title>
+    <title>云试衣间</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -14,115 +14,60 @@
   </head>
   <body>
     <header class="site-header">
-      <a class="brand" href="#studio" aria-label="&#20113;&#35797;&#34915;&#38388;">
-        <span class="brand-mark">&#35797;</span>
-        <span>&#20113;&#35797;&#34915;&#38388;</span>
+      <a class="brand" href="#studio" aria-label="云试衣间">
+        <span class="brand-mark">试</span>
+        <span>云试衣间</span>
       </a>
-      <nav class="nav-links" aria-label="&#20027;&#23548;&#33322;">
-        <a href="#workflow">&#27969;&#31243;</a>
-        <a class="active" href="#studio">&#24037;&#20316;&#21488;</a>
-        <a href="#result">&#19979;&#36733;</a>
-      </nav>
-      <div class="header-actions">
-        <button class="signin" type="button">&#26412;&#22320;&#20307;&#39564;</button>
-      </div>
     </header>
 
     <main>
-      <section class="hero" id="studio">
-        <div class="hero-copy">
-          <p class="eyebrow">AI VIRTUAL FITTING</p>
-          <h1>&#20113;&#35797;&#34915;&#38388;</h1>
-          <p class="lede">
-            &#19978;&#20256;&#20154;&#29289;&#29031;&#29255;&#21644;&#34915;&#26381;&#29031;&#29255;&#65292;&#24555;&#36895;&#29983;&#25104;&#33258;&#28982;&#30340;&#19978;&#36523;&#35797;&#31359;&#25928;&#26524;&#12290;&#36866;&#21512;&#25645;&#37197;&#39044;&#35272;&#12289;&#21830;&#21697;&#20027;&#22270;&#39564;&#35777;&#21644;&#36896;&#22411;&#26041;&#26696;&#23545;&#27604;&#12290;
-          </p>
-
-          <div class="hero-meta" aria-label="&#20135;&#21697;&#29305;&#28857;">
-            <span>&#21452;&#22270;&#36755;&#20837;</span>
-            <span>&#24322;&#27493;&#29983;&#25104;</span>
-            <span>&#39640;&#28165;&#19979;&#36733;</span>
-          </div>
-
-          <div class="control-panel" aria-label="&#35797;&#34915;&#25805;&#20316;">
-            <input id="personInput" class="hidden-input" type="file" accept="image/*" />
-            <input id="clothInput" class="hidden-input" type="file" accept="image/*" />
-
-            <div class="panel-head">
-              <span>&#24403;&#21069;&#29366;&#24577;</span>
-              <p class="status-line" id="statusText">&#31561;&#24453;&#19978;&#20256;&#29031;&#29255;</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="preview-mosaic" aria-label="&#35797;&#34915;&#39044;&#35272;">
+      <div class="hero" id="studio">
+        <div class="preview-mosaic" aria-label="试衣预览">
           <div class="preview-toolbar">
             <span class="dot is-red"></span>
             <span class="dot is-yellow"></span>
             <span class="dot is-green"></span>
-            <strong>&#29983;&#25104;&#39044;&#35272;</strong>
+            <strong>生成预览</strong>
           </div>
+
+          <input id="personInput" class="hidden-input" type="file" accept="image/*" />
+          <input id="clothInput" class="hidden-input" type="file" accept="image/*" />
+
           <label class="tile tile-a upload-tile" for="personInput">
             <span class="step-index" aria-hidden="true">01</span>
-            <span class="step-title">&#20154;&#29289;&#29031;&#29255;</span>
-            <small id="personStepStatus">&#28857;&#20987;&#19978;&#20256;</small>
+            <span class="step-title">人物照片</span>
+            <small id="personStepStatus">点击上传</small>
           </label>
           <label class="tile tile-b upload-tile" for="clothInput">
             <span class="step-index" aria-hidden="true">02</span>
-            <span class="step-title">&#34915;&#26381;&#29031;&#29255;</span>
-            <small id="clothStepStatus">&#28857;&#20987;&#19978;&#20256;</small>
+            <span class="step-title">衣服照片</span>
+            <small id="clothStepStatus">点击上传</small>
           </label>
           <div class="tile tile-c result-tile" id="resultTile">
             <span class="step-index" aria-hidden="true">03</span>
-            <span class="step-title" id="resultTileTitle">&#29983;&#25104;&#21306;</span>
-            <small id="resultTileStatus">&#31561;&#24453;&#19978;&#20256;&#29031;&#29255;</small>
-            <img id="resultImage" class="generated-image" alt="&#35797;&#31359;&#29983;&#25104;&#22270;" />
+            <span class="step-title" id="resultTileTitle">生成区</span>
+            <small id="resultTileStatus">等待上传照片</small>
+            <img id="resultImage" class="generated-image" alt="试穿生成图" />
             <canvas id="tryonCanvas" class="generated-preview" width="900" height="1200"></canvas>
             <div class="countdown-overlay" id="countdownOverlay">
-              <span class="countdown-label">AI &#27491;&#22312;&#29983;&#25104;</span>
+              <span class="countdown-label">AI 正在生成</span>
               <span class="countdown-text" id="countdownText"></span>
             </div>
           </div>
+
+          <p class="status-line" id="statusText">等待上传照片</p>
+
           <div class="preview-actions">
             <button class="download-btn" id="downloadButton" type="button" disabled>
-              &#19979;&#36733;&#22270;&#29255;
+              下载图片
             </button>
           </div>
         </div>
-      </section>
-
-      <section class="how" id="workflow">
-        <div class="how-copy">
-          <p class="eyebrow">WORKFLOW</p>
-          <h2>&#19977;&#27493;&#29983;&#25104;&#35797;&#31359;&#22270;</h2>
-        </div>
-
-        <ol class="feature-grid">
-          <li class="feature-card">
-            <strong>&#19978;&#20256;&#28165;&#26224;&#20154;&#29289;&#22270;</strong>
-            <span>&#24314;&#35758;&#20351;&#29992;&#20840;&#36523;&#25110;&#21322;&#36523;&#27491;&#38754;&#29031;&#65292;&#36991;&#20813;&#36807;&#24230;&#36974;&#25377;&#12290;</span>
-          </li>
-          <li class="feature-card">
-            <strong>&#36873;&#25321;&#34915;&#26381;&#22270;&#29255;</strong>
-            <span>&#34915;&#26381;&#23613;&#37327;&#24179;&#25972;&#12289;&#32972;&#26223;&#31616;&#27905;&#65292;&#29983;&#25104;&#25928;&#26524;&#26356;&#31283;&#23450;&#12290;</span>
-          </li>
-          <li class="feature-card">
-            <strong>&#29983;&#25104;&#24182;&#23548;&#20986;</strong>
-            <span>&#32467;&#26524;&#20250;&#26174;&#31034;&#22312;&#21491;&#20391;&#39044;&#35272;&#21306;&#65292;&#21487;&#25918;&#22823;&#26597;&#30475;&#25110;&#19979;&#36733;&#12290;</span>
-          </li>
-        </ol>
-      </section>
-
-      <section class="studio-shell" id="result" aria-label="&#34394;&#25311;&#35797;&#34915;&#24037;&#20316;&#21488;">
-        <div class="summary-strip">
-          <span>&#26412;&#22320;&#39029;&#38754;</span>
-          <span>OSS &#20020;&#26102;&#38142;&#25509;</span>
-          <span>DashScope AI &#24322;&#27493;&#29983;&#25104;</span>
-        </div>
-      </section>
+      </div>
 
       <div class="lightbox" id="lightbox">
-        <button class="lightbox-close" id="lightboxClose" type="button" aria-label="&#20851;&#38381;&#39044;&#35272;">&times;</button>
-        <img class="lightbox-img" id="lightboxImg" alt="&#35797;&#34915;&#25928;&#26524;&#22270;" />
+        <button class="lightbox-close" id="lightboxClose" type="button" aria-label="关闭预览">&times;</button>
+        <img class="lightbox-img" id="lightboxImg" alt="试衣效果图" />
       </div>
     </main>
 
