@@ -1,1 +1,1 @@
-window.API_BASE_URL = "https://tryon-n7d0.onrender.com";
+window.API_BASE_URL = "https://tryon-65n7.onrender.com";

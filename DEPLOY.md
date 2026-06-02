@@ -65,6 +65,7 @@ nginx/cloud-tryon.conf.example
 - `package.json`
 - `index.html`
 - `styles.css`
+- `api-config.js`
 - `app.js`
 - `upload-module.js`
 - `tryon-generator.js`

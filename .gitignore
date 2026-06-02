@@ -11,3 +11,9 @@ npm-debug.log*
 
 deploy/
 *.zip
+
+.vercel
+.codex-github-*
+.codex-gh-auth-*
+.codex-alt-index-*
+codex_known_hosts

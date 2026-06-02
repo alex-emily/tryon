@@ -9,6 +9,7 @@ const IS_PRODUCTION = process.env.NODE_ENV === "production";
 const PUBLIC_FILES = new Set([
   "index.html",
   "styles.css",
+  "api-config.js",
   "app.js",
   "upload-module.js",
   "tryon-generator.js",

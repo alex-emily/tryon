@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: tryon-n7d0
+    runtime: node
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /healthz
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ALIYUN_API_KEY
+        sync: false
+      - key: ALIYUN_ACCESS_KEY_ID
+        sync: false
+      - key: ALIYUN_ACCESS_KEY_SECRET
+        sync: false
+      - key: ALIYUN_OSS_BUCKET
+        sync: false
+      - key: ALIYUN_OSS_ENDPOINT
+        sync: false
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: TRYON_RATE_LIMIT
+        value: "6"
+      - key: TRYON_RATE_WINDOW_MS
+        value: "3600000"
+      - key: MAX_ACTIVE_GENERATIONS
+        value: "2"
+      - key: MAX_BODY_MB
+        value: "36"
+      - key: MAX_IMAGE_MB
+        value: "14"
+      - key: OSS_SIGN_EXPIRES_SECONDS
+        value: "900"
+      - key: OSS_CLEANUP_INPUTS
+        value: "true"
