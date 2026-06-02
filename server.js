@@ -70,6 +70,7 @@ const TRYON_RATE_LIMIT = Number(process.env.TRYON_RATE_LIMIT || 6);
 const TRYON_RATE_WINDOW_MS = Number(process.env.TRYON_RATE_WINDOW_MS || 60 * 60 * 1000);
 const MAX_ACTIVE_GENERATIONS = Number(process.env.MAX_ACTIVE_GENERATIONS || 2);
 const ALIYUN_ENDPOINT = "dashscope.aliyuncs.com";
+const SERVER_VERSION = "2026-06-02-env-alias-v2";
 
 function firstEnv(...keys) {
   for (const key of keys) {
@@ -84,8 +85,24 @@ function getConfig() {
     aliyunApiKey: firstEnv("ALIYUN_API_KEY", "DASHSCOPE_API_KEY"),
     ossBucket: firstEnv("ALIYUN_OSS_BUCKET", "OSS_BUCKET"),
     ossEndpoint: firstEnv("ALIYUN_OSS_ENDPOINT", "OSS_ENDPOINT"),
-    ossAccessKeyId: firstEnv("ALIYUN_ACCESS_KEY_ID", "ALIYUN_ACCESS_KEYID", "OSS_ACCESS_KEY_ID", "ossAccessKeyID"),
-    ossAccessKeySecret: firstEnv("ALIYUN_ACCESS_KEY_SECRET", "ALIYUN_ACCESS_KEYSECRET", "OSS_ACCESS_KEY_SECRET", "ossAccessKeySecret"),
+    ossAccessKeyId: firstEnv(
+      "ALIYUN_ACCESS_KEY_ID",
+      "ALIYUN_ACCESS_KEYID",
+      "OSS_ACCESS_KEY_ID",
+      "OSS_ACCESS_KEYID",
+      "OSSAccessKeyId",
+      "OSSAccessKeyID",
+      "ossAccessKeyId",
+      "ossAccessKeyID",
+    ),
+    ossAccessKeySecret: firstEnv(
+      "ALIYUN_ACCESS_KEY_SECRET",
+      "ALIYUN_ACCESS_KEYSECRET",
+      "OSS_ACCESS_KEY_SECRET",
+      "OSS_ACCESS_KEYSECRET",
+      "OSSAccessKeySecret",
+      "ossAccessKeySecret",
+    ),
   };
 
   const missing = Object.entries(config)
@@ -561,7 +578,7 @@ const server = http.createServer((request, response) => {
   }
 
   if (request.method === "GET" && requestUrl.pathname === "/healthz") {
-    sendJson(request, response, 200, { ok: true });
+    sendJson(request, response, 200, { ok: true, version: SERVER_VERSION });
     return;
   }
 
